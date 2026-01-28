@@ -1,15 +1,14 @@
 from django.contrib import admin
 from .models import Booking
 
-
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    """Admin configuration for Booking model"""
-    
+
     # Display fields in list view
     list_display = [
-        'id',
+        'booking_reference',
         'passenger_name',
+        'user',
         'flight',
         'seats_booked',
         'total_price',
@@ -20,8 +19,10 @@ class BookingAdmin(admin.ModelAdmin):
     
     # Add search functionality
     search_fields = [
+        'booking_reference',
         'passenger_name',
         'passenger_email',
+        'user__username',
         'flight__flight_number',
         'flight__airline',
     ]
@@ -37,6 +38,7 @@ class BookingAdmin(admin.ModelAdmin):
     
     # Make some fields read-only
     readonly_fields = [
+        'booking_reference',
         'created_at',
         'confirmed_at',
         'cancelled_at',
@@ -48,8 +50,11 @@ class BookingAdmin(admin.ModelAdmin):
     
     # Field organization in edit form
     fieldsets = (
+        ('Booking Information', {
+            'fields': ('booking_reference', 'user', 'status')
+        }),
         ('Passenger Information', {
-            'fields': ('passenger_name', 'passenger_email')
+            'fields': ('passenger_name', 'passenger_email', 'passenger_phone')
         }),
         ('Flight Information', {
             'fields': ('flight',)
@@ -57,12 +62,13 @@ class BookingAdmin(admin.ModelAdmin):
         ('Booking Details', {
             'fields': ('seats_booked', 'total_price', 'special_requests')
         }),
-        ('Status Information', {
-            'fields': ('status', 'created_at', 'confirmed_at', 'cancelled_at')
+        ('Timestamps', {
+            'fields': ('created_at', 'confirmed_at', 'cancelled_at'),
+            'classes': ('collapse',)
         }),
     )
     
-    # Actions you can perform on multiple bookings
+    # Actions
     actions = ['confirm_bookings', 'cancel_bookings']
     
     def confirm_bookings(self, request, queryset):
@@ -86,23 +92,17 @@ class BookingAdmin(admin.ModelAdmin):
     cancel_bookings.short_description = "Cancel selected confirmed bookings"
     
     def get_queryset(self, request):
-        """Optimize queries by prefetching related flight data"""
+        """Optimize queries by prefetching related data"""
         queryset = super().get_queryset(request)
-        return queryset.select_related('flight')
+        return queryset.select_related('flight', 'user')
     
     def get_form(self, request, obj=None, **kwargs):
         """Customize the form in admin"""
         form = super().get_form(request, obj, **kwargs)
         
-        # If editing an existing booking, make flight read-only
+        # If editing an existing booking, make certain fields read-only
         if obj:
             form.base_fields['flight'].disabled = True
+            form.base_fields['user'].disabled = True
             
         return form
-    
-    def save_model(self, request, obj, form, change):
-        """Custom save method for admin to ensure proper price calculation"""
-        # Calculate total price if not set
-        if not obj.total_price and obj.flight and obj.seats_booked:
-            obj.total_price = obj.seats_booked * obj.flight.price
-        super().save_model(request, obj, form, change)
