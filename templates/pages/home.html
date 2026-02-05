@@ -1,0 +1,300 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}SkyBook Airlines - Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="#" class="logo">
+                <i class="fas fa-plane"></i>
+                <span>SkyBook</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="{% url 'book' %}">Book Flights</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Fly with Confidence</h1>
+        <p class="hero-subtitle">Book your next adventure with SkyBook Airlines.</p>
+        <a href="{% url 'book' %}" class="btn btn-primary btn-large hero-cta">
+            <i class="fas fa-plane"></i> Book a Flight
+        </a>
+    </div>
+</section>
+
+
+<!-- Flight Search Card -->
+<section class="search-section">
+    <div class="container">
+        <div class="search-card">
+            <!-- Search Tabs -->
+            <div class="search-tabs">
+                <button class="search-tab active" data-tab="book-flights">
+                    <i class="fas fa-plane"></i> Book Flights
+                </button>
+                <button class="search-tab" data-tab="my-bookings">
+                    <i class="fas fa-suitcase"></i> My Bookings
+                </button>
+            </div>
+            
+            <!-- Book Flights Content -->
+            <div class="search-content active" id="book-flights">
+                <!-- Trip Type -->
+                <div class="trip-type">
+                    <button class="trip-option active" data-type="one-way">
+                        <i class="fas fa-arrow-right"></i> One Way
+                    </button>
+                    <button class="trip-option" data-type="round-trip">
+                        <i class="fas fa-exchange-alt"></i> Round Trip
+                    </button>
+                </div>
+                
+                <!-- Flight Search Form -->
+                <form id="flightSearchForm" class="search-form">
+                    <div class="form-grid">
+                        <!-- From -->
+                        <div class="form-group">
+                            <label for="fromCity">
+                                <i class="fas fa-plane-departure"></i> From
+                            </label>
+                            <input type="text" 
+                                   id="fromCity" 
+                                   class="form-input"
+                                   placeholder="City or Airport"
+                                   required
+                                   autocomplete="off">
+                        </div>
+                        
+                        <!-- To -->
+                        <div class="form-group">
+                            <label for="toCity">
+                                <i class="fas fa-plane-arrival"></i> To
+                            </label>
+                            <input type="text" 
+                                   id="toCity" 
+                                   class="form-input"
+                                   placeholder="City or Airport"
+                                   required
+                                   autocomplete="off">
+                        </div>
+                        
+                        <!-- Departure Date -->
+                        <div class="form-group">
+                            <label for="departureDate">
+                                <i class="fas fa-calendar-alt"></i> Departure
+                            </label>
+                            <input type="date" 
+                                   id="departureDate" 
+                                   class="form-input"
+                                   required>
+                        </div>
+                        
+                        <!-- Return Date (Hidden by default) -->
+                        <div class="form-group return-date-group">
+                            <label for="returnDate">
+                                <i class="fas fa-calendar-alt"></i> Return
+                            </label>
+                            <input type="date" 
+                                   id="returnDate" 
+                                   class="form-input">
+                        </div>
+                        
+                        <!-- Passengers -->
+                        <div class="form-group">
+                            <label for="passengers">
+                                <i class="fas fa-users"></i> Passengers
+                            </label>
+                            <div class="passengers-selector">
+                                <div class="passengers-display" id="passengersDisplay">
+                                    1 Adult
+                                </div>
+                                <div class="passengers-dropdown" id="passengersDropdown">
+                                    <div class="passenger-type">
+                                        <span>Adults (12+ years)</span>
+                                        <div class="passenger-controls">
+                                            <button type="button" class="passenger-btn" data-type="adults" data-action="decrease">-</button>
+                                            <span class="passenger-count" id="adultsCount">1</span>
+                                            <button type="button" class="passenger-btn" data-type="adults" data-action="increase">+</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="passenger-type">
+                                        <span>Children (2-11 years)</span>
+                                        <div class="passenger-controls">
+                                            <button type="button" class="passenger-btn" data-type="children" data-action="decrease" disabled>-</button>
+                                            <span class="passenger-count" id="childrenCount">0</span>
+                                            <button type="button" class="passenger-btn" data-type="children" data-action="increase">+</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="passenger-type">
+                                        <span>Infants (0-1 years)</span>
+                                        <div class="passenger-controls">
+                                            <button type="button" class="passenger-btn" data-type="infants" data-action="decrease" disabled>-</button>
+                                            <span class="passenger-count" id="infantsCount">0</span>
+                                            <button type="button" class="passenger-btn" data-type="infants" data-action="increase">+</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary btn-small" id="applyPassengers">
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-large search-btn">
+                        <i class="fas fa-search"></i> Search Flights
+                    </button>
+                </form>
+            </div>
+            
+            <!-- My Bookings Content -->
+            <div class="search-content" id="my-bookings">
+                <div class="bookings-content">
+                    <h3>Access Your Bookings</h3>
+                    <p>Enter your booking details to view or manage your flights.</p>
+                    
+                    <form class="bookings-form">
+                        <div class="form-group">
+                            <label for="bookingRef">Booking Reference</label>
+                            <input type="text" 
+                                   id="bookingRef" 
+                                   class="form-input"
+                                   placeholder="e.g., SKB123456"
+                                   required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bookingEmail">Email Address</label>
+                            <input type="email" 
+                                   id="bookingEmail" 
+                                   class="form-input"
+                                   placeholder="your@email.com"
+                                   required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            View My Bookings
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">Why Choose SkyBook Airlines?</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Safe & Secure</h3>
+                <p>Your safety is our top priority with the highest safety standards.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock customer support to assist you.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h3>Best Prices</h3>
+                <p>Guaranteed lowest fares on all our flights.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>On-time Performance</h3>
+                <p>Industry-leading punctuality with 95% on-time departure record.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <i class="fas fa-plane"></i>
+                    <span>SkyBook Airlines</span>
+                </div>
+                <p class="footer-description">
+                    Your trusted partner for seamless air travel experiences.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="{% url 'book' %}">Book Flights</a></li>
+                    <li><a href="#">Flight Status</a></li>
+                    <li><a href="#">Manage Booking</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Information</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="footer-contact">
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>support@skybook.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 SkyBook Airlines. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+{% endblock %}
