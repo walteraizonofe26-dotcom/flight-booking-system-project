@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% comment %} {% extends 'base.html' %}
 {% load static %}
 
 {% block title %}SkyBook Airlines - Book Flight{% endblock %}
@@ -28,9 +28,7 @@
         </nav>
     </div>
 </header>
-{% endblock %}
 
-{% block content %}
 <div class="booking-container">
     <div class="container">
         <div class="booking-step active" id="step-1">
@@ -84,13 +82,78 @@
                         </button>
                     </div>
                 </form>
+
+                <!-- ADDED: Search summary, loading, error, results -->
+                <div id="searchSummary" class="search-summary" style="display: none; margin-top: 20px;">
+                    <h3>Your Search</h3>
+                    <p id="summaryText"></p>
+                    <p id="passengerSummary"></p>
+                </div>
+
+                <div id="loading" style="display: none; text-align: center; padding: 40px;">
+                    <p>Searching for flights...</p>
+                </div>
+
+                <div id="errorMessage" class="alert-message error" style="display: none;"></div>
+
+                <div id="flightResults" class="flight-results" style="margin-top: 30px;"></div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
 
+<!-- ADDED: Booking modal for passenger/payment details -->
+<div class="modal" id="bookingModal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Complete Your Booking</h2>
+        <div id="modalFlightSummary" style="margin-bottom: 20px;"></div>
+        <form id="bookingForm">
+            <input type="hidden" id="modalFlightId">
+            <div class="form-group">
+                <label>Number of Seats</label>
+                <input type="text" id="modalSeats" class="form-input" readonly>
+            </div>
+            <div class="form-group">
+                <label>Total Price</label>
+                <input type="text" id="modalTotalPrice" class="form-input" readonly>
+            </div>
+            <div class="form-group">
+                <label for="passengerName">Full Name *</label>
+                <input type="text" id="passengerName" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="passengerEmail">Email *</label>
+                <input type="email" id="passengerEmail" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="passengerPhone">Phone (optional)</label>
+                <input type="text" id="passengerPhone" class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="specialRequests">Special Requests (optional)</label>
+                <textarea id="specialRequests" class="form-input" rows="3"></textarea>
+            </div>
+            <h3>Payment Information (Mock)</h3>
+            <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" class="form-input" placeholder="4111 1111 1111 1111">
+            </div>
+            <div class="form-group">
+                <label for="cardExpiry">Expiry Date</label>
+                <input type="text" id="cardExpiry" class="form-input" placeholder="12/25">
+            </div>
+            <div class="form-group">
+                <label for="cardCvv">CVV</label>
+                <input type="text" id="cardCvv" class="form-input" placeholder="123">
+            </div>
+            <button type="submit" class="btn btn-primary btn-large">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
 {% block footer %}
+<!-- Your existing footer unchanged -->
 <footer class="footer">
     <div class="container">
         <div class="footer-grid">
@@ -136,3 +199,8 @@
     </div>
 </footer>
 {% endblock %}
+
+
+{% block extra_js %}
+<script src="{% static 'js/book.js' %}"></script>
+{% endblock %} {% endcomment %}
