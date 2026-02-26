@@ -1,28 +1,77 @@
-{%load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}SkyBook Airlines{% endblock %}</title>
-    
-    <!-- Global CSS -->
+{% comment %}     
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+     {% endcomment %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     
-    <!-- Page-specific CSS -->
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% block header %}{% endblock %}
-    
-    <main>
+
+    {% block header %}
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="main-logo">
+                <i class="fas fa-plane-departure"></i>
+                <span>SkyBook</span>
+            </a>
+            
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'book' %}" class="nav-link">Book Flights</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+    {% endblock %}
+
+    <main class="content-wrapper">
         {% block content %}{% endblock %}
     </main>
-    
-    <footer>
-        {% block footer %}{% endblock %}
+
+    {% block footer %}
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <i class="fas fa-plane"></i>
+                    <span>SkyBook Airlines</span>
+                </div>
+                <p>Elevating your travel experience with world-class service and seamless bookings.</p>
+            </div>
+
+            <div class="footer-links-group">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'book' %}">Book Flights</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact-info">
+                <h4>Support</h4>
+                <p><i class="fas fa-envelope"></i> support@skybook.com</p>
+                <p><i class="fas fa-phone"></i> +234 8165 894 875</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SkyBook Airlines. All rights reserved.</p>
+        </div>
     </footer>
-    
+    {% endblock %}
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>

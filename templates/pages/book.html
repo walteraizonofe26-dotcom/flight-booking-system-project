@@ -1,4 +1,4 @@
-{% comment %} {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}SkyBook Airlines - Book Flight{% endblock %}
@@ -7,200 +7,133 @@
 <link rel="stylesheet" href="{% static 'css/book.css' %}">
 {% endblock %}
 
-{% block header %}
-<header class="header">
-    <div class="container">
-        <nav class="navbar">
-            <a href="{% url 'home' %}" class="logo">
-                <i class="fas fa-plane"></i>
-                <span>SkyBook</span>
-            </a>
-            
-            <ul class="nav-links">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="#" class="active">Book Flights</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </nav>
-    </div>
-</header>
-
+{% block content %}
 <div class="booking-container">
-    <div class="container">
-        <div class="booking-step active" id="step-1">
-            <div class="step-header">
-                <h2><i class="fas fa-search"></i> Search Flights</h2>
-                <p>Find available flights for your journey</p>
-            </div>
-            
-            <div class="search-form-container">
-                <form id="bookingSearchForm" class="search-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="bookingFrom">From</label>
-                            <input type="text" 
-                                   id="bookingFrom" 
-                                   class="form-input"
-                                   placeholder="City or Airport"
-                                   required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="bookingTo">To</label>
-                            <input type="text" 
-                                   id="bookingTo" 
-                                   class="form-input"
-                                   placeholder="City or Airport"
-                                   required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="bookingDeparture">Departure Date</label>
-                            <input type="date" 
-                                   id="bookingDeparture" 
-                                   class="form-input"
-                                   placeholder="Select Date"
-                                   required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="bookingReturn">Return Date (Optional)</label>
-                            <input type="date" 
-                                   id="bookingReturn" 
-                                   class="form-input"
-                                   placeholder="Select Date">
-                        </div>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary btn-large">
-                            <i class="fas fa-search"></i> Search Available Flights
-                        </button>
-                    </div>
-                </form>
-
-                <!-- ADDED: Search summary, loading, error, results -->
-                <div id="searchSummary" class="search-summary" style="display: none; margin-top: 20px;">
-                    <h3>Your Search</h3>
-                    <p id="summaryText"></p>
-                    <p id="passengerSummary"></p>
-                </div>
-
-                <div id="loading" style="display: none; text-align: center; padding: 40px;">
-                    <p>Searching for flights...</p>
-                </div>
-
-                <div id="errorMessage" class="alert-message error" style="display: none;"></div>
-
-                <div id="flightResults" class="flight-results" style="margin-top: 30px;"></div>
-            </div>
+    
+    <div id="initial-search-view">
+        <div class="step-header">
+            <h2><i class="fas fa-search"></i> Search Flights</h2>
+            <p>Enter your details to find available flights</p>
         </div>
-    </div>
-</div>
 
-<!-- ADDED: Booking modal for passenger/payment details -->
-<div class="modal" id="bookingModal" style="display: none;">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <h2>Complete Your Booking</h2>
-        <div id="modalFlightSummary" style="margin-bottom: 20px;"></div>
-        <form id="bookingForm">
-            <input type="hidden" id="modalFlightId">
-            <div class="form-group">
-                <label>Number of Seats</label>
-                <input type="text" id="modalSeats" class="form-input" readonly>
+        <div class="trip-type-selector">
+            <label><input type="radio" name="tripType" value="one-way" checked> One Way</label>
+            <label><input type="radio" name="tripType" value="round-trip"> Round Trip</label>
+        </div>
+
+        <form id="flightSearchForm">
+            <div class="search-form-grid">
+                <div class="form-group">
+                    <label>From</label>
+                    <input type="text" id="fromCity" class="form-input" placeholder="City or Airport" required>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <input type="text" id="toCity" class="form-input" placeholder="City or Airport" required>
+                </div>
+                <div class="form-group">
+                    <label>Departure Date</label>
+                    <input type="date" id="departureDate" class="form-input" required>
+                </div> 
+                <div class="form-group return-date-group">
+                    <label>Return Date</label>
+                    <input type="date" id="returnDate" class="form-input">
+                </div>
             </div>
-            <div class="form-group">
-                <label>Total Price</label>
-                <input type="text" id="modalTotalPrice" class="form-input" readonly>
+                
+            <div class="passenger-row">
+                <div class="form-group">
+                    <label>Adults</label>
+                    <input type="number" id="adults" min="1" value="1">
+                </div>
+                <div class="form-group">
+                    <label>Children</label>
+                    <input type="number" id="children" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Infants</label>
+                    <input type="number" id="infants" min="0" value="0">
+                </div>
+                <button type="submit" class="search-btn" id="searchBtn">Search Flight</button>
             </div>
-            <div class="form-group">
-                <label for="passengerName">Full Name *</label>
-                <input type="text" id="passengerName" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="passengerEmail">Email *</label>
-                <input type="email" id="passengerEmail" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="passengerPhone">Phone (optional)</label>
-                <input type="text" id="passengerPhone" class="form-input">
-            </div>
-            <div class="form-group">
-                <label for="specialRequests">Special Requests (optional)</label>
-                <textarea id="specialRequests" class="form-input" rows="3"></textarea>
-            </div>
-            <h3>Payment Information (Mock)</h3>
-            <div class="form-group">
-                <label for="cardNumber">Card Number</label>
-                <input type="text" id="cardNumber" class="form-input" placeholder="4111 1111 1111 1111">
-            </div>
-            <div class="form-group">
-                <label for="cardExpiry">Expiry Date</label>
-                <input type="text" id="cardExpiry" class="form-input" placeholder="12/25">
-            </div>
-            <div class="form-group">
-                <label for="cardCvv">CVV</label>
-                <input type="text" id="cardCvv" class="form-input" placeholder="123">
-            </div>
-            <button type="submit" class="btn btn-primary btn-large">Confirm Booking</button>
         </form>
     </div>
-</div>
-{% endblock %}
-{% block footer %}
-<!-- Your existing footer unchanged -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <i class="fas fa-plane"></i>
-                    <span>SkyBook Airlines</span>
-                </div>
-                <p class="footer-description">
-                    Book with confidence. Travel with ease.
-                </p>
+
+    <div id="step-1" class="booking-step step-section" style="display: none;">
+        <div class="step-navigation">
+            <div class="step active" data-step="1">
+                <div class="step-circle">1</div>
+                <span>Select Flight</span>
             </div>
-            
-            <div class="footer-section">
-                <h3>Need Help?</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Contact Support</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Booking Policy</a></li>
-                </ul>
+            <div class="step" data-step="2">
+                <div class="step-circle">2</div>
+                <span>Passenger Details</span>
             </div>
-            
-            <div class="footer-section">
-                <h3>Legal</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
+            <div class="step" data-step="3">
+                <div class="step-circle">3</div>
+                <span>Payment</span>
             </div>
-            
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <ul class="footer-contact">
-                    <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                    <li><i class="fas fa-envelope"></i> bookings@skybook.com</li>
-                </ul>
+            <div class="step" data-step="4">
+                <div class="step-circle">4</div>
+                <span>Confirmation</span>
             </div>
         </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2026 SkyBook Airlines. All rights reserved.</p>
+
+        <div class="results-header">
+        <h3>Available Flights</h3>
+
+        <button class="modify-btn" class="fas fa-edit" onclick="location.reload()">Back to Search</button>
         </div>
     </div>
-</footer>
-{% endblock %}
 
+    <div id="step-2" class="step-section">
+        <div class="step-navigation">
+            <div class="step active"><div class="step-circle">1</div><span>Select</span></div>
+            <div class="step active"><div class="step-circle">2</div><span>Passenger</span></div>
+            <div class="step"><div class="step-circle">3</div><span>Payment</span></div>
+            <div class="step"><div class="step-circle">4</div><span>Confirm</span></div>
+        </div>
+
+        <h2>Passenger Details</h2>
+        <form id="passengerDetailsForm">
+            <div class="form-grid">
+                <div class="form-group"><label>First Name</label><input type="text" class="form-input" required></div>
+                <div class="form-group"><label>Last Name</label><input type="text" class="form-input" required></div>
+                <div class="form-group"><label>Email</label><input type="email" class="form-input" required></div>
+                <div class="form-group"><label>Phone</label><input type="tel" class="form-input"></div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="back-btn" onclick="switchStep(1)">Back</button>
+                <button type="submit" class="continue-btn">Continue to Payment</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/book.js' %}"></script>
-{% endblock %} {% endcomment %}
+{% endblock %}
+{% comment %} 
+there is also an errors we need to fix on the bookpage. 
+(1) first part:
+1Select Flight
+2Passenger Details
+3Payment
+4Confirmation. should not be on the bookpage immediately the user open the bookpage. it should be after the user has fill the like from, to and date then search for flight if the flight is available or not. once the user clciked on search flight the 1Select Flight 2Passenger Details 3Payment 4Confirmation should show on the top.  
+
+(2) when the user has search for flight and the flight is available, it showing select flight, passengers details etc still on the same bookpage it suppose to show another fresh page where the from, to , date and passengers place like, adult, infant would be available.  you can check the image i sent to see that the passengers details  etc is below the bookflight section but it suppose to be in another fresh page enterly .
+
+(3) even the user has searched for flght and they see available flight and the clicked on proceed to passengers details the :
+ 1Select Flight
+2Passenger Details
+3Payment
+4Confirmation isn't following the flow like when on the passneger details is hould show full to passnegers as well as the others .
+what i want is that when the user has searched flight and the flight is available the select flight should be another page with a back button to go back if the user want to change date or place. and when the user clicked on select flight it should take the user directly to passengers details in a fresh page where the user could put his/her details and also a back button. just go with the flow thesame as payment and confirmation.
+
+NOTE: don't fix the error at once. start with number error. when i checked it and it is ok i will be the one to tell you let go to error 2 or ask me should we proceed to number 2.
+
+i will send you the book.js codes but don't rewrite it send only the codes need to fix the error eirther to add or modify the html, css or js. 
+
+thanks  {% endcomment %}

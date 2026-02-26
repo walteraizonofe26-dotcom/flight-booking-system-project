@@ -54,6 +54,8 @@ class Flight(models.Model):
         validators=[MinValueValidator(0.01)],
         help_text="Price per seat in USD"
     )
+
+    is_active = models.BooleanField(default=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)

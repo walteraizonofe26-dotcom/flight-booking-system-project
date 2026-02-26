@@ -7,196 +7,96 @@
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
-{% block header %}
-<header class="header">
-    <div class="container">
-        <nav class="navbar">
-            <a href="#" class="logo">
-                <i class="fas fa-plane"></i>
-                <span>SkyBook</span>
-            </a>
-            
-        
-<ul class="nav-links">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="{% url 'book' %}">Book Flights</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </nav>
-    </div>
-</header>
-{% endblock %}
-
 {% block content %}
 <section class="hero">
     <div class="hero-content">
         <h1 class="hero-title">Fly with Confidence</h1>
         <p class="hero-subtitle">Book your next adventure with SkyBook Airlines.</p>
-        <a href="{% url 'book' %}" class="btn btn-primary btn-large hero-cta">
+        <a href="{% url 'book' %}" class="btn-hero">
             <i class="fas fa-plane"></i> Book a Flight
         </a>
     </div>
 </section>
 
-<!-- Flight Search Card -->
 <section class="search-section">
     <div class="container">
         <div class="search-card">
-
-    <!-- Tabs -->
-    <div class="search-tabs">
-        <button class="search-tab active" data-tab="bookFlights">Book Flights</button>
-        <button class="search-tab" data-tab="myBookings">My Bookings</button>
-    </div>
-
-    <!-- BOOK FLIGHTS -->
-    <div id="bookFlights" class="search-content active">
-        <div class="search-card">
-
-            <!-- Trip Type -->
-            <div class="trip-type">
-               <button class="trip-option active" data-type="one-way"><i class="fas fa-arrow-right"></i>One Way</button>
-               <button class="trip-option active" data-type="round-trip"><i class="fas fa-exchange-alt"></i>Round Trip</button>
+            
+            <div class="search-tabs">
+                <button class="search-tab active" onclick="switchTab('bookFlights')">Book Flights</button>
+                <button class="search-tab" onclick="switchTab('myBookings')">My Bookings</button>
             </div>
-A
 
-                <!-- Flight Search Form -->
-            <form id="flightSearchForm">
-                <div class="form-grid">
-                 <div class="form-group">
-                    <label>From</label>
-                    <input type="text" id="fromCity" class="form-input" placeholder="City or Airport" style="font-size:12px">
+            <div id="bookFlights" class="search-content active">
+                <div class="trip-type">
+                    <label><input type="radio" name="tripType" value="one-way" checked> One Way</label>
+                    <label><input type="radio" name="tripType" value="round-trip"> Round Trip</label>
                 </div>
 
-                <div class="form-group">
-                    <label>To</label>
-                    <input type="text" id="toCity" class="form-input" placeholder="City or Airport" style="font-size:13px;">
-                </div>
-
-                <div class="form-group">
-                    <label>Departure</label>
-                    <input type="date" id="departureDate" class="form-input">
-                </div>
-
-                <div class="form-group return-date-group">
-                    <label>Return</label>
-                    <input type="date" id="returnDate" class="form-input">
-                </div>
-                   </div>
-
-                <!-- Passenger Row -->
-                <div class="passenger-row">
-                    <div class="passenger-field" id="adultsField">
-                        <div class="field-display">
-                            <span class="field-text">1 Adult (12yrs+)</span>
-                            <span>▼</span>
+                <form id="flightSearchForm">
+                    <div class="form-grid-4">
+                        <div class="form-group">
+                            <label>From</label>
+                            <input type="text" id="fromCity" class="form-input" placeholder="City or Airport" required>
                         </div>
-                        <ul class="passenger-list"></ul>
+                        <div class="form-group">
+                            <label>To</label>
+                            <input type="text" id="toCity" class="form-input" placeholder="City or Airport" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Departure Date</label>
+                            <input type="date" id="departureDate" class="form-input" required>
+                        </div>
+                        <div class="form-group return-date-group">
+                            <label>Return Date</label>
+                            <input type="date" id="returnDate" class="form-input">
+                        </div>
                     </div>
 
-                    <div class="passenger-field" id="childrenField">
-                        <div class="field-display">
-                            <span class="field-text">0 Child</span>
-                            <span>▼</span>
+                    <div class="passenger-row">
+                        <div class="form-group">
+                            <label>Adults</label>
+                            <input type="number" id="adults" min="1" value="1" class="form-input">
                         </div>
-                        <ul class="passenger-list"></ul>
-                    </div>
-
-                    <div class="passenger-field" id="infantsField">
-                        <div class="field-display">
-                            <span class="field-text">0 Infant (< 2yrs)</span>
-                            <span>▼</span>
+                        <div class="form-group">
+                            <label>Children</label>
+                            <input type="number" id="children" min="0" value="0" class="form-input">
                         </div>
-                        <ul class="passenger-list"></ul>
+                        <div class="form-group">
+                            <label>Infants</label>
+                            <input type="number" id="infants" min="0" value="0" class="form-input">
+                        </div>
+                        <button type="submit" class="search-btn">Search Flight</button>
                     </div>
+                </form>
+            </div>
 
-                    <button type="submit" class="search-btn">Search Flight</button>
+            <div id="myBookings" class="search-content" style="display: none;">
+                <div class="bookings-content">
+                    <h3><i class="fas fa-suitcase-rolling"></i> Access Your Bookings</h3>
+                    <p>Enter your booking details to view or manage your flights.</p>
+
+                    <form class="bookings-form">
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label>Booking Reference</label>
+                                <input type="text" id="bookingRef" class="form-input" placeholder="e.g. SKB123456" required>      
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" id="bookingEmail" class="form-input" placeholder="your@email.com" required> 
+                            </div>
+                            <button type="submit" class="search-btn btn-booking">View My Booking</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
+
         </div>
     </div>
-
-    <!-- MY BOOKINGS -->
-    <div id="myBookings" class="search-content">
-        <div class="bookings-content">
-            <h3>Access Your Bookings</h3>
-            <p>Enter your booking details to view or manage your flights.</p>
-
-            <form class="bookings-form">
-                <div class="form-group">
-                    <label>Booking Reference</label>
-                    <input type="text" id="bookingRef" placeholder="e.g. SKB123456">      
-                   </div>
-
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="bookingEmail" placeholder="your@gnail.com"> 
-                </div>
-                    
-                <button type="submit" class="search-btn">View My Booking</button>
-            </form>
-        </div>
-    </div>
-</div>
+</section>
 {% endblock %}
 
-{% block footer %}
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <i class="fas fa-plane"></i>
-                    <span>SkyBook Airlines</span>
-                </div>
-                <p class="footer-description">
-                    Your trusted partner for seamless air travel experiences.
-                </p>
-            </div>
-            
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="{% url 'book' %}">Book Flights</a></li>
-                    <li><a href="#">Flight Status</a></li>
-                    <li><a href="#">Manage Booking</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h3>Information</h3>
-                <ul class="footer-links">
-                    <li><a href="#">About Us</a></li>
-                
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <ul class="footer-contact">
-                    <li>
-                        <i class="fas fa-phone"></i>
-                        <span>+234 8165 894 875</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-envelope"></i>
-                        <span>support@skybook.com</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2026 SkyBook Airlines. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
-{% endblock %}
 {% block extra_js %}
 <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

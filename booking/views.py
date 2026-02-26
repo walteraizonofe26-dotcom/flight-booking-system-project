@@ -1,4 +1,3 @@
-from django.shortcuts import render
 """
 booking/views.py
 ================
@@ -15,22 +14,6 @@ import json
 
 @require_http_methods(["POST"])
 def create_booking(request):
-    """
-    API endpoint to create a new booking.
-    
-    Expected POST data (JSON):
-    {
-        "flight_id": 1,
-        "passenger_name": "John Smith",
-        "passenger_email": "john@example.com",
-        "passenger_phone": "+1-555-1234",
-        "seats_booked": 2,
-        "special_requests": "Window seat please",
-        "card_number": "4111111111111111",  // mock only
-        "card_expiry": "12/25",
-        "card_cvv": "123"
-    }
-    """
     try:
         data = json.loads(request.body)
         
@@ -49,9 +32,16 @@ def create_booking(request):
                 'error': 'Missing required fields'
             }, status=400)
         
+        if seats_booked <=0:
+            return JsonResponse({
+                "success": False,
+                "error": "seats booked must be greater than 0"},
+                status=400)
+        
+        
         # Get flight
         try:
-            flight = Flight.objects.get(id=flight_id)
+            flight = Flight.objects.select_for_update().get(id=flight_id, is_active=True)
         except Flight.DoesNotExist:
             return JsonResponse({
                 'success': False,
