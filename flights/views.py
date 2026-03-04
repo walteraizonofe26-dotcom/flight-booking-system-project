@@ -13,15 +13,15 @@ def search_flights(request):
     try:
         data = json.loads(request.body)
         
-        departure_city = data.get('departure_city')
-        arrival_city = data.get('arrival_city')
+        from_city = data.get('from_city')
+        to_city = data.get('to_city')
         departure_date = data.get('departure_date')
         trip_type = data.get('trip_type', 'one-way')
       
         
         
         # Validate required fields
-        if not all([departure_city, arrival_city, departure_date]):
+        if not all([from_city, to_city, departure_date]):
             return JsonResponse({
                 'success': False,
                 'error': 'Missing required fields'
@@ -40,9 +40,9 @@ def search_flights(request):
         now = timezone.now()
         outbound_flights = Flight.objects.filter(
             is_active=True,
-            departure_city__iexact=departure_city.strip(),
-            arrival_city__iexact=arrival_city.strip(),
-            departure_time__date=departure_datetime.date(),
+            departure_city__iexact=from_city.strip(),
+            arrival_city__iexact=to_city.strip(),
+            departure_time__date=datetime.strptime(departure_date, "%Y-%m-%d").date(),
             departure_time__gt=now,
             available_seats__gt=0
             
@@ -75,8 +75,8 @@ def search_flights(request):
             return_datetime = datetime.strptime(return_date, "%Y-%m-%d")
             
             return_flights = Flight.objects.filter(
-                departure_city__iexact=arrival_city,  # Reverse route
-                arrival_city__iexact=departure_city,
+                departure_city__iexact=from_city,  # Reverse route
+                arrival_city__iexact=to_city,
                 departure_time__date=return_datetime.date(),
                 departure_time__gt=now,
                 available_seats__gt=0

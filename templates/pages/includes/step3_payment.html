@@ -1,0 +1,46 @@
+<div class="step-navigation">
+    <div class="step active"><div class="step-circle">1</div><span>Select</span></div>
+    <div class="step active"><div class="step-circle">2</div><span>Passengers</span></div>
+    <div class="step active"><div class="step-circle">3</div><span>Payment</span></div>
+    <div class="step"><div class="step-circle">4</div><span>Confirm</span></div>
+</div>
+
+<div class="payment-container">
+    <div class="order-summary card">
+        <h3>Order Summary</h3>
+        <div id="payment-price-breakdown">
+            </div>
+        <hr>
+        <div class="total-row">
+            <strong>Total Amount:</strong>
+            <span id="final-total-price">$0.00</span>
+        </div>
+    </div>
+
+    <form id="paymentForm" class="card">
+        <h3>Card Information</h3>
+        <div class="form-group">
+            <label>Cardholder Name</label>
+            <input type="text" id="cardName" class="form-input" required placeholder="Name on card">
+        </div>
+        <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" id="cardNumber" class="form-input" required placeholder="1234 5678 9101 1121" maxlength="16">
+        </div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Expiry Date</label>
+                <input type="text" id="cardExpiry" class="form-input" required placeholder="MM/YY" maxlength="5">
+            </div>
+            <div class="form-group">
+                <label>CVV</label>
+                <input type="password" id="cardCVV" class="form-input" required placeholder="123" maxlength="3">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="back-btn" onclick="switchStep(2)">Back</button>
+            <button type="submit" class="pay-btn" id="payNowBtn">Pay and Book Now</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,61 @@
+
+<div class="step-header">
+    <h2><i class="fas fa-search"></i> Search Flights</h2>
+    <p>Enter your details to find available flights</p>
+</div>
+
+<div class="trip-type-selector">
+
+    <label>
+        <input type="radio" name="tripType" value="one-way" checked> <span>One Way</span> 
+    </label>
+
+    <label>
+        <input type="radio" name="tripType" value="round-trip"> <span>Round Trip</span> 
+    </label>
+</div>
+
+<form id="flightSearchForm">
+    <div class="search-form-grid">
+        <div class="form-group">
+            <label for="fromCity">From</label>
+            <input type="text" id="fromCity" class="form-input" placeholder="City or Airport" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="toCity">To</label>
+            <input type="text" id="toCity" class="form-input" placeholder="City or Airport" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="departureDate">Departure Date</label>
+            <input type="date" id="departureDate" class="form-input" required>
+        </div> 
+
+        <div class="form-group return-date-group" id="returnDateContainer" style="display: none;">
+            <label for="returnDate">Return Date</label>
+            <input type="date" id="returnDate" class="form-input">
+        </div>
+    </div>
+        
+    <div class="passenger-row">
+        <div class="form-group">
+            <label>Adults</label>
+            <input type="number" id="adults" min="1" value="1" class="form-input">
+        </div>
+        <div class="form-group">
+            <label>Children</label>
+            <input type="number" id="children" min="0" value="0" class="form-input">
+        </div>
+        <div class="form-group">
+            <label>Infants</label>
+            <input type="number" id="infants" min="0" value="0" class="form-input">
+        </div>
+        
+        <div class="search-action">
+            <button type="submit" class="search-btn" id="searchBtn">
+                <i class="fas fa-plane"></i> Search Flight
+            </button>
+        </div>
+    </div>
+</form>

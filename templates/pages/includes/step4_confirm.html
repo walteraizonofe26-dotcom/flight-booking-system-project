@@ -1,0 +1,36 @@
+<div class="confirmation-container card">
+    <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+    </div>
+    
+    <h2>Booking Confirmed!</h2>
+    <p>Your flight has been successfully booked. A confirmation email has been sent to <strong id="conf-email"></strong>.</p>
+
+    <div class="booking-id-box">
+        <span>Booking Reference:</span>
+        <h3 id="conf-booking-ref">-------</h3>
+    </div>
+
+    <hr>
+
+    <div class="trip-summary">
+        <h4>Trip Details</h4>
+        <div id="conf-details">
+            </div>
+    </div>
+
+    <div class="form-actions no-print">
+        <button type="button" class="print-btn" onclick="window.print()">
+            <i class="fas fa-print"></i> Print Ticket
+        </button>
+        <button type="button" class="home-btn" onclick="location.href='/'">
+            Go to Home
+        </button>
+    </div>
+</div>
+
+<style>
+    .success-icon { font-size: 4rem; color: #28a745; margin-bottom: 1rem; }
+    .booking-id-box { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 2px dashed #ddd; }
+    @media print { .no-print { display: none; } }
+</style>

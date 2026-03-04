@@ -1,0 +1,175 @@
+/* --- Card Wrapper --- */
+.flight-selection-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    border: 1px solid #eef2f7;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.flight-selection-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 86, 179, 0.08);
+    border-color: #0056b3;
+}
+
+/* --- Dynamic Title Header --- */
+.flight-header-box {
+    background: #f0f7ff; /* Soft blue accent */
+    padding: 10px 24px;
+    border-bottom: 1px solid #e1e9f3;
+}
+
+.header-label {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.header-cities {
+    font-size: 0.95rem;
+    color: #1e293b;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+/* --- Body Layout --- */
+.flight-main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+}
+
+.info-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-column.arrival {
+    text-align: right;
+}
+
+.flight-time {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1e293b;
+    letter-spacing: -0.5px;
+}
+
+.flight-location {
+    font-size: 1rem;
+    color: #475569;
+    font-weight: 600;
+    margin: 2px 0;
+}
+
+.flight-date {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+/* --- Center Route Visual --- */
+.route-center-section {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.duration-label {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.route-line {
+    width: 100%;
+    height: 1px;
+    background: #cbd5e0;
+    position: relative;
+    margin: 10px 0;
+}
+
+.plane-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 0 10px;
+    color: #0056b3;
+    font-size: 0.9rem;
+}
+
+.stop-status {
+    font-size: 0.75rem;
+    color: #10b981; /* Green for nonstop */
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* --- Footer Action Area --- */
+.flight-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 24px;
+    background: #fafcfe;
+    border-top: 1px solid #f1f5f9;
+}
+
+.price-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-currency {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.price-amount {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #003366;
+}
+
+.select-flight-primary-btn {
+    background: #0056b3;
+    color: #ffffff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 50px; /* Fully rounded */
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.select-flight-primary-btn:hover:not(:disabled) {
+    background: #003d82;
+}
+
+.select-flight-primary-btn:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .flight-main-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .info-column, .arrival {
+        text-align: center;
+    }
+    .route-center-section {
+        width: 100%;
+    }
+}
