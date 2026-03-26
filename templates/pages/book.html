@@ -4,35 +4,57 @@
 {% block title %}SkyBook Airlines - Book Flight{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="{% static 'css/book.css' %}">
-<link rel="stylesheet" href="{% static 'css/book_core.css' %}"> <link rel="stylesheet" href="{% static 'css/step1_results.css' %}">
+<link rel="stylesheet" href="{% static 'css/step1_results.css' %}">
 <link rel="stylesheet" href="{% static 'css/step2_passengers.css' %}">
+<link rel="stylesheet" href="{% static 'css/step3_payment.css' %}">
+<link rel="stylesheet" href="{% static 'css/step4_confirm.css' %}">
 {% endblock %}
-
 
 {% block content %}
 <div class="booking-container">
+    <div class="step-navigation" id="main-nav" style="display: none;">
+        <div class="step"><div class="step-circle">1</div><span>Select</span></div>
+        <div class="step"><div class="step-circle">2</div><span>Passengers</span></div>
+        <div class="step"><div class="step-circle">3</div><span>Payment</span></div>
+        <div class="step"><div class="step-circle">4</div><span>Confirm</span></div>
+    </div>
+    
+    <div id="global-blue-header" class="booking-blue-header" style="display: none;">
+        <div class="header-left">
+            <div class="route-info">
+                <h2 id="header-cities"></h2> 
+                <p id="header-meta"></p> 
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="price-display">
+                <span class="price-label">TOTAL PRICE</span>
+                <h2 id="header-total-price">₦0.00</h2> 
+            </div>
+        </div>
+    </div>
     
     <div id="step-0" class="step-section">
         {% include 'pages/includes/step0_search.html' %}
     </div>
 
-    <div id="step-1" class="step-section" style="display: none;">
+    <div id="step-1" class="step-section">
         {% include 'pages/includes/step1_results.html' %}
     </div>
 
-    <div id="step-2" class="step-section" style="display: none;">
+    <div id="step-2" class="step-section">
         {% include 'pages/includes/step2_passengers.html' %}
     </div>
 
-    <div id="step-3" class="step-section" style="display: none;">
+    <div id="step-3" class="step-section">
         {% include 'pages/includes/step3_payment.html' %}
     </div>
 
-    <div id="step-4" class="step-section" style="display: none;">
+    <div id="step-4" class="step-section">
         {% include 'pages/includes/step4_confirm.html' %}
     </div>
-
 </div>
 {% endblock %}
 
@@ -43,122 +65,3 @@
 <script src="{% static 'js/includes/payment.js' %}"></script>
 <script src="{% static 'js/includes/confirm.js' %}"></script>
 {% endblock %}
-
-
-{% comment %} {% extends 'base.html' %}
-{% load static %}
-
-{% block title %}SkyBook Airlines - Book Flight{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/book.css' %}">
-{% endblock %}
-
-{% block content %}
-<div class="booking-container">
-    
-    <div id="initial-search-view">
-        <div class="step-header">
-            <h2><i class="fas fa-search"></i> Search Flights</h2>
-            <p>Enter your details to find available flights</p>
-        </div>
-
-        <div class="trip-type-selector">
-            <label><input type="radio" name="tripType" value="one-way" checked> One Way</label>
-            <label><input type="radio" name="tripType" value="round-trip"> Round Trip</label>
-        </div>
-
-        <form id="flightSearchForm">
-            <div class="search-form-grid">
-                <div class="form-group">
-                    <label>From</label>
-                    <input type="text" id="fromCity" class="form-input" placeholder="City or Airport" required>
-                </div>
-                <div class="form-group">
-                    <label>To</label>
-                    <input type="text" id="toCity" class="form-input" placeholder="City or Airport" required>
-                </div>
-                <div class="form-group">
-                    <label>Departure Date</label>
-                    <input type="date" id="departureDate" class="form-input" required>
-                </div> 
-                <div class="form-group return-date-group">
-                    <label>Return Date</label>
-                    <input type="date" id="returnDate" class="form-input">
-                </div>
-            </div>
-                
-            <div class="passenger-row">
-                <div class="form-group">
-                    <label>Adults</label>
-                    <input type="number" id="adults" min="1" value="1">
-                </div>
-                <div class="form-group">
-                    <label>Children</label>
-                    <input type="number" id="children" min="0" value="0">
-                </div>
-                <div class="form-group">
-                    <label>Infants</label>
-                    <input type="number" id="infants" min="0" value="0">
-                </div>
-                <button type="submit" class="search-btn" id="searchBtn">Search Flight</button>
-            </div>
-        </form>
-    </div>
-
-    <div id="step-1" class="booking-step step-section" style="display: none;">
-        <div class="step-navigation">
-            <div class="step active" data-step="1">
-                <div class="step-circle">1</div>
-                <span>Select Flight</span>
-            </div>
-            <div class="step" data-step="2">
-                <div class="step-circle">2</div>
-                <span>Passenger Details</span>
-            </div>
-            <div class="step" data-step="3">
-                <div class="step-circle">3</div>
-                <span>Payment</span>
-            </div>
-            <div class="step" data-step="4">
-                <div class="step-circle">4</div>
-                <span>Confirmation</span>
-            </div>
-        </div>
-
-        <div class="results-header">
-        <h3>Available Flights</h3>
-
-        <button class="modify-btn" class="fas fa-edit" onclick="location.reload()">Back to Search</button>
-        </div>
-    </div>
-
-    <div id="step-2" class="step-section">
-        <div class="step-navigation">
-            <div class="step active"><div class="step-circle">1</div><span>Select</span></div>
-            <div class="step active"><div class="step-circle">2</div><span>Passenger</span></div>
-            <div class="step"><div class="step-circle">3</div><span>Payment</span></div>
-            <div class="step"><div class="step-circle">4</div><span>Confirm</span></div>
-        </div>
-
-        <h2>Passenger Details</h2>
-        <form id="passengerDetailsForm">
-            <div class="form-grid">
-                <div class="form-group"><label>First Name</label><input type="text" class="form-input" required></div>
-                <div class="form-group"><label>Last Name</label><input type="text" class="form-input" required></div>
-                <div class="form-group"><label>Email</label><input type="email" class="form-input" required></div>
-                <div class="form-group"><label>Phone</label><input type="tel" class="form-input"></div>
-            </div>
-            <div class="form-actions">
-                <button type="button" class="back-btn" onclick="switchStep(1)">Back</button>
-                <button type="submit" class="continue-btn">Continue to Payment</button>
-            </div>
-        </form>
-    </div>
-
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'js/book.js' %}"></script>
-{% endblock %} {% endcomment %}

@@ -19,6 +19,7 @@ def create_booking(request):
         
         # Extract booking data
         flight_id = data.get('flight_id')
+        return_flight_id = data.get('return_flight_id')
         passenger_name = data.get('passenger_name')
         passenger_email = data.get('passenger_email')
         passenger_phone = data.get('passenger_phone', '')
@@ -39,34 +40,54 @@ def create_booking(request):
                 status=400)
         
         
-        # Get flight
-        try:
-            flight = Flight.objects.select_for_update().get(id=flight_id, is_active=True)
-        except Flight.DoesNotExist:
-            return JsonResponse({
-                'success': False,
-                'error': 'Flight not found'
-            }, status=404)
+        # Get outbound flight
+        with transaction.atomic():
+            try:
+                flight = Flight.objects.select_for_update().get(id=flight_id, is_active=True)
+            except Flight.DoesNotExist:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Flight not found'
+                }, status=404)
+        
+            return_flight = None
+            if return_flight_id:
+                try:
+                    return_flight = Flight.objects.select_for_update().get(id=return_flight_id, is_active=True)
+                except Flight.DoesNotExist:
+                    return JsonResponse({'success': False, 'error': 'Return flight not found'}, status=404)
         
         # Check seat availability
-        if seats_booked > flight.available_seats:
-            return JsonResponse({
-                'success': False,
-                'error': f'Only {flight.available_seats} seats available'
-            }, status=400)
+            if seats_booked > flight.available_seats:
+                return JsonResponse({
+                    'success': False,
+                    'error': f'Only {flight.available_seats} seats available'
+                }, status=400)
+        # 3. Check seat availability for both legs
+            if seats_booked > flight.available_seats:
+                return JsonResponse({
+                    'success': False, 
+                    'error': f'Only {flight.available_seats} seats left on outbound'},
+                    status=400)
         
         # Create booking in transaction
-        with transaction.atomic():
+            unit_price = flight.price
+            if return_flight:
+                unit_price += return_flight.price
+            
+            calculated_total = unit_price * seats_booked
+        # with transaction.atomic():
             booking = Booking.objects.create(
                 flight=flight,
+                return_flight=return_flight,
                 passenger_name=passenger_name,
                 passenger_email=passenger_email,
                 passenger_phone=passenger_phone,
                 seats_booked=seats_booked,
                 special_requests=special_requests,
                 status=Booking.Status.CONFIRMED,
-                total_price=flight.price * seats_booked
-            )
+                total_price=calculated_total
+                )
             
             # Deduct seats (handled in model save method)
             # Return success response
@@ -75,6 +96,8 @@ def create_booking(request):
                 'booking': {
                     'id': booking.id,
                     'booking_reference': booking.booking_reference,
+                    'outbound': f"{flight.departure_city} to {flight.arrival_city}",
+                    'return': f"{return_flight.departure_city} to {return_flight.arrival_city}" if return_flight else "N/A",
                     'passenger_name': booking.passenger_name,
                     'flight_number': booking.flight.flight_number,
                     'departure_city': booking.flight.departure_city,

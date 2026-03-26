@@ -10,9 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initMyBookingsForm();
 });
 
-// ==========================================
-// 1. TABS: Book Flights vs My Bookings
-// ==========================================
 // This function is called directly from the HTML onclick attributes
 window.switchTab = function(tabId) {
     // 1. Update tab styling
@@ -102,9 +99,9 @@ function initFlightSearchForm() {
     searchForm.addEventListener('submit', function(event) {
         event.preventDefault();
         
-        const fromCity = document.getElementById('fromCity').value.trim();
-        const toCity = document.getElementById('toCity').value.trim();
-        const departureDate = document.getElementById('departureDate').value;
+        const from_City = document.getElementById('fromCity').value.trim();
+        const to_City = document.getElementById('toCity').value.trim();
+        const departure_Date = document.getElementById('departureDate').value;
         const returnDate = document.getElementById('returnDate').value;
         const tripType = document.querySelector('input[name="tripType"]:checked').value;
         
@@ -122,7 +119,7 @@ function initFlightSearchForm() {
             return;
         }
         
-        if (fromCity.toLowerCase() === toCity.toLowerCase()) {
+        if (from_City.toLowerCase() === to_City.toLowerCase()) {
             showError('Departure and destination cannot be the same city.');
             return;
         }
@@ -134,21 +131,18 @@ function initFlightSearchForm() {
         
         // Save to localStorage and redirect
         const searchData = {
-            from: fromCity,
-            to: toCity,
-            departureDate: departureDate,
+            from: from_City,
+            to: to_City,
+            departure_Date: departure_Date,
             returnDate: tripType === 'one-way' ? null : returnDate,
             passengers: passengers
         };
         
         localStorage.setItem('flightSearch', JSON.stringify(searchData));
-        window.location.href = '/book/'; // Make sure this matches your Django URL
+        window.location.href = '/booking/'; 
     });
 }
 
-// ==========================================
-// 5. MY BOOKINGS SUBMISSION
-// ==========================================
 function initMyBookingsForm() {
     const bookingsForm = document.querySelector('.bookings-form');
     
@@ -175,9 +169,6 @@ function initMyBookingsForm() {
     });
 }
 
-// ==========================================
-// 6. MOBILE MENU
-// ==========================================
 function initMobileMenu() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
@@ -189,9 +180,6 @@ function initMobileMenu() {
     });
 }
 
-// ==========================================
-// UTILITY FUNCTIONS (Alerts & Validation)
-// ==========================================
 function showError(message) {
     removeAlerts(); // clear existing
     const errorDiv = document.createElement('div');

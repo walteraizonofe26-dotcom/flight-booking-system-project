@@ -1,17 +1,23 @@
-<div class="step-navigation">
-    <div class="step active"><div class="step-circle">1</div><span>Select</span></div>
-    <div class="step"><div class="step-circle">2</div><span>Passengers</span></div>
-    <div class="step"><div class="step-circle">3</div><span>Payment</span></div>
-    <div class="step"><div class="step-circle">4</div><span>Confirm</span></div>
-</div>
+    <div class="results-container">
+        
+        <div class="results-header">
+            <h3>Departing Flights</h3>
+        </div>
+        <div id="outbound-results-list">
+            </div>
 
-<div class="results-header">
-    <h3>Available Flights</h3>
-    <button class="modify-btn" onclick="modifySearch()">Modify Search</button>
-</div>
+        <div id="return-flight-section" style="display: none;">
+            <div class="results-header">
+                <h3>Return Flights</h3>
+            </div>
+            <div id="return-results-list">
+                </div>
+        </div>
 
-<div id="flight-results-list" class="results-list">
-    <div class="loading-spinner" id="search-loading" style="display:none;">
-        <i class="fas fa-spinner fa-spin"></i> Finding flights...
+        <div class="bottom-action-container" style="text-align: center; margin-top: 30px;">
+            <button id="step-1-continue-btn" class="continue-to-passengers-btn" onclick="proceedToPassengerDetails()">
+                Continue to Passenger Details
+            </button>
+        </div>
     </div>
 </div>

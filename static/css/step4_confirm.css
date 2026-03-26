@@ -1,0 +1,137 @@
+.confirmation-container {
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 40px;
+    text-align: center;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Success Header */
+.success-icon {
+    font-size: 5rem;
+    color: #28a745; 
+    margin-bottom: 20px;
+    animation: scaleUp 0.5s ease-out;
+}
+
+@keyframes scaleUp {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.confirmation-container h2 {
+    color: #003366; /* Deep Airline Blue */
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.confirmation-container p {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Booking Reference "Ticket" Box */
+.booking-id-box {
+    background: #f0f7ff;
+    border: 2px dashed #0056b3;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 30px 0;
+    position: relative;
+}
+
+.booking-id-box span {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: #0056b3;
+    font-weight: 700;
+}
+
+.booking-id-box h3 {
+    font-family: 'Courier New', Courier, monospace; /* Ticket Font */
+    font-size: 2.2rem;
+    margin: 10px 0 0 0;
+    color: #333;
+    letter-spacing: 2px;
+}
+
+/* Trip Details Section */
+.trip-summary {
+    text-align: left;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.trip-summary h4 {
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    color: #003366;
+}
+
+#conf-details p {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Action Buttons */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.print-btn, .home-btn {
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.print-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.print-btn:hover {
+    background-color: #5a6268;
+}
+
+.home-btn {
+    background-color: #0056b3;
+    color: white;
+}
+
+.home-btn:hover {
+    background-color: #004494;
+    transform: translateY(-2px);
+}
+
+/* Print Optimization */
+@media print {
+    .no-print, .main-nav, .step-navigation, footer {
+        display: none !important;
+    }
+    .confirmation-container {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    .booking-id-box {
+        border: 2px solid #333; /* Solid border for printing */
+    }
+}

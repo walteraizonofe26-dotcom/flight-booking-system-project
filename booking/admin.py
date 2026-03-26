@@ -10,6 +10,7 @@ class BookingAdmin(admin.ModelAdmin):
         'passenger_name',
         'user',
         'flight',
+        'return_flight',
         'seats_booked',
         'total_price',
         'status',
@@ -57,7 +58,7 @@ class BookingAdmin(admin.ModelAdmin):
             'fields': ('passenger_name', 'passenger_email', 'passenger_phone')
         }),
         ('Flight Information', {
-            'fields': ('flight',)
+            'fields': ('flight', 'return_flight')
         }),
         ('Booking Details', {
             'fields': ('seats_booked', 'total_price', 'special_requests')

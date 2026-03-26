@@ -26,8 +26,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('book/', views.book, name='book'),
     path('api/flights/', include("flights.urls")),
-
-]
+    path('api/booking/', include("booking.urls")),
+    ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

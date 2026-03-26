@@ -1,70 +1,103 @@
-/* --- Card Wrapper --- */
+/* --- Section Titles --- */
+.results-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 40px 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.results-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.results-header h3::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 28px;
+    background: #0056b3;
+    border-radius: 4px;
+}
+
+/* --- Selectable Flight Cards --- */
 .flight-selection-card {
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    border: 2px solid #e2e8f0;
     margin-bottom: 20px;
-    border: 1px solid #eef2f7;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .flight-selection-card:hover {
+    border-color: #94a3b8;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 86, 179, 0.08);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+}
+.select-flight-btn:hover {
+    background: #0056b3;
+    color: #ffffff;
+}
+/* --- THE SELECTED STATE --- */
+.flight-selection-card.selected-card {
+    border-color: #0056b3;
+    background-color: #f8fbff;
+    box-shadow: 0 12px 24px rgba(0, 86, 179, 0.15);
+}
+
+/* Checkmark indicator for selected cards */
+.flight-selection-card.selected-card::after {
+    display: none;
+}
+
+.select-flight-btn {
+    background: #ffffff;
+    color: #0056b3;
+    border: 2px solid #0056b3;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Selected Button State */
+.selected-card .select-flight-btn {
+    background: #0056b3;
+    color: #ffffff;
     border-color: #0056b3;
 }
 
-/* --- Dynamic Title Header --- */
-.flight-header-box {
-    background: #f0f7ff; /* Soft blue accent */
-    padding: 10px 24px;
-    border-bottom: 1px solid #e1e9f3;
-}
-
-.header-label {
-    font-size: 0.85rem;
-    color: #64748b;
-    font-weight: 500;
-}
-
-.header-cities {
-    font-size: 0.95rem;
-    color: #1e293b;
-    font-weight: 700;
-    margin-left: 5px;
-}
-
-/* --- Body Layout --- */
+/* --- Card Content Layout --- */
 .flight-main-content {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
     align-items: center;
-    padding: 24px;
+    padding: 30px 40px;
 }
 
 .info-column {
-    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-.info-column.arrival {
-    text-align: right;
-}
-
 .flight-time {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 800;
     color: #1e293b;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
 }
 
 .flight-location {
-    font-size: 1rem;
-    color: #475569;
+    font-size: 1.1rem;
     font-weight: 600;
-    margin: 2px 0;
+    color: #475569;
 }
 
 .flight-date {
@@ -72,28 +105,26 @@
     color: #94a3b8;
 }
 
-/* --- Center Route Visual --- */
+/* Trip Bar (Center Section) */
 .route-center-section {
-    flex: 1.5;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 20px;
 }
 
 .duration-label {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #64748b;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-weight: 500;
 }
 
 .route-line {
     width: 100%;
-    height: 1px;
-    background: #cbd5e0;
+    height: 2px;
+    background: #cbd5e1;
     position: relative;
-    margin: 10px 0;
+    margin: 15px 0;
 }
 
 .plane-icon {
@@ -101,75 +132,80 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
-    padding: 0 10px;
+    background: #ffffff; /* Default background */
     color: #0056b3;
-    font-size: 0.9rem;
+    padding: 0 12px;
+    font-size: 1.2rem;
+    transition: background 0.25s;
 }
 
-.stop-status {
-    font-size: 0.75rem;
-    color: #10b981; /* Green for nonstop */
-    font-weight: 700;
-    text-transform: uppercase;
+.selected-card .plane-icon {
+    background: #f8fbff; 
 }
 
-/* --- Footer Action Area --- */
+/* --- Card Footer --- */
 .flight-footer {
+    padding: 15px 40px;
+    background: #fcfdfe;
+    border-top: 1px solid #f1f5f9;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 24px;
-    background: #fafcfe;
-    border-top: 1px solid #f1f5f9;
-}
 
-.price-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.price-currency {
-    font-size: 0.75rem;
-    color: #64748b;
 }
 
 .price-amount {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 800;
     color: #003366;
 }
 
-.select-flight-primary-btn {
+/* --- BOTTOM ACTION BUTTON --- */
+.bottom-action-container {
+    margin-top: 50px;
+    padding: 40px 0;
+    text-align: center;
+    border-top: 2px dashed #e2e8f0;
+}
+
+.continue-to-passengers-btn {
     background: #0056b3;
-    color: #ffffff;
-    border: none;
-    padding: 12px 28px;
-    border-radius: 50px; /* Fully rounded */
+    color: white;
+    font-size: 1.25rem;
     font-weight: 700;
+    padding: 20px 80px;
+    border: none;
+    border-radius: 16px;
     cursor: pointer;
-    transition: background 0.2s;
+    box-shadow: 0 12px 24px rgba(0, 86, 179, 0.25);
+    transition: all 0.3s;
 }
 
-.select-flight-primary-btn:hover:not(:disabled) {
+.continue-to-passengers-btn:hover {
     background: #003d82;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 86, 179, 0.35);
 }
 
-.select-flight-primary-btn:disabled {
-    background: #cbd5e0;
-    cursor: not-allowed;
+.continue-to-passengers-btn:active {
+    transform: translateY(-1px);
 }
 
-/* --- Responsive --- */
+/* Loading States */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #64748b;
+    font-style: italic;
+    font-weight: 500;
+}
+
+/* Mobile Adjustments */
 @media (max-width: 768px) {
     .flight-main-content {
-        flex-direction: column;
-        gap: 20px;
-    }
-    .info-column, .arrival {
+        grid-template-columns: 1fr;
         text-align: center;
+        gap: 24px;
     }
-    .route-center-section {
-        width: 100%;
-    }
+    .route-center-section { padding: 0; }
 }

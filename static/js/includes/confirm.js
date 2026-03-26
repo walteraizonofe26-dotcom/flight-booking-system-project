@@ -10,10 +10,8 @@ function initConfirmationStep() {
     // 1. Set the Contact Email
     emailSpan.innerText = bookingState.contactEmail;
 
-    // 2. Set the Booking Reference (returned from backend in Step 3)
     refHeading.innerText = bookingState.bookingReference || "SKY-" + Math.random().toString(36).substr(2, 9).toUpperCase();
 
-    // 3. Build the Summary HTML
     const passengerNames = bookingState.passengers.map(p => `${p.firstName} ${p.lastName}`).join(', ');
     
     detailsDiv.innerHTML = `
@@ -21,7 +19,7 @@ function initConfirmationStep() {
             <strong>Passengers:</strong> <span>${passengerNames}</span>
         </div>
         <div class="summary-item">
-            <strong>Total Paid:</strong> <span>$${bookingState.totalAmount.toFixed(2)}</span>
+            <strong>Total Paid:</strong> <span>N${bookingState.totalAmount.toFixed(2)}</span>
         </div>
         <div class="summary-item">
             <strong>Status:</strong> <span style="color: green;">Confirmed</span>

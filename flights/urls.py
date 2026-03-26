@@ -1,6 +1,3 @@
-
-# flights/urls.py
-# ===============
 # API endpoints for flight search.
 
 from django.urls import path

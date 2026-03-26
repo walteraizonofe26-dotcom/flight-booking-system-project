@@ -84,7 +84,6 @@ class FlightAdmin(admin.ModelAdmin):
         queryset = super().get_queryset(request)
         return queryset
     
-    # Add this method to handle the save in admin
     def save_model(self, request, obj, form, change):
         """Custom save method for admin"""
         # Ensure available_seats doesn't exceed total_seats

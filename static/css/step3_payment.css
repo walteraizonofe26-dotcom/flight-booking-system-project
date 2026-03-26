@@ -1,0 +1,69 @@
+#step-3.step-section {
+    display: none; /* Default to hidden */
+    height: auto;
+    overflow: visible;
+}
+
+/* Only when the step is actually active does it show */
+#step-3.step-section.active {
+    display: block !important; 
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Payment Layout --- */
+.payment-container {
+    display: block;
+    height: auto;
+    clear: both;
+    padding-bottom: 50px;
+}
+
+.order-summary {
+    background: #f8fafc;
+    border-left: 5px solid #0056b3;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+.total-row {
+    display: flex; 
+    justify-content: space-between; 
+    font-size: 1.25rem; 
+    font-weight: bold;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #e2e8f0;
+}
+
+/* --- Form specific to Payment --- */
+.payment-form-group {
+    margin-bottom: 20px;
+}
+
+.payment-form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+.payment-card, #paymentForm {
+    display: block;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Responsive fix for the grid */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
