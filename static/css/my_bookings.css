@@ -1,0 +1,131 @@
+/* 1. Main Container */
+.booking-card.professional-ui {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 25px; /* Changed from margin-top for better stacking */
+    border: 1px solid #eef2f6;
+    border-left: 5px solid #2563eb; /* Primary Blue Accent */
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+/* 2. Header Section */
+.card-header-flex {
+    background: #f8fafc;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.ref-badge {
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* 3. Status Pills */
+.status-pill {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.status-pill.confirmed { background: #dcfce7; color: #15803d; }
+.status-pill.cancelled { background: #fee2e2; color: #b91c1c; }
+.status-pill.pending { background: #fef9c3; color: #a16207; }
+
+/* 4. Flight Route Display */
+.leg-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    margin: 20px 25px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.route-display {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 25px;
+    text-align: center;
+}
+
+.endpoint h3 { font-size: 1.8rem; color: #0f172a; margin: 0; }
+.endpoint span { color: #64748b; font-size: 0.8rem; text-transform: uppercase; }
+
+.flight-path { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; padding: 0 20px; }
+.flight-path i { color: #2563eb; font-size: 1.2rem; background: white; z-index: 2; padding: 0 10px; }
+.path-line { position: absolute; width: 80%; height: 2px; border-bottom: 2px dashed #cbd5e1; z-index: 1; }
+
+.leg-details {
+    display: flex;
+    gap: 20px;
+    padding: 0 25px 20px;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.leg-divider {
+    height: 1px;
+    background: repeating-linear-gradient(to right, #ccc, #ccc 5px, transparent 5px, transparent 10px);
+    margin: 10px 25px;
+}
+
+/* 5. Info Grid (Passengers & Type) */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px 25px;
+    background: #fcfcfc;
+}
+
+.info-item { display: flex; align-items: flex-start; gap: 12px; }
+.info-item i { color: #2563eb; font-size: 1.1rem; margin-top: 3px; }
+.info-item strong { display: block; font-size: 0.75rem; color: #64748b; }
+.info-item p { margin: 0; font-weight: 600; color: #1e293b; }
+
+/* 6. Footer & Price */
+.price-footer {
+    background: #f1f5f9;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-amount h2 { margin: 0; color: #059669; font-size: 1.5rem; }
+
+.cancel-action-btn {
+    background: #ffffff;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cancel-action-btn:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* 7. Animations */
+.fade-in {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

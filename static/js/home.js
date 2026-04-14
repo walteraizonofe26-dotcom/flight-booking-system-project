@@ -114,7 +114,7 @@ function initFlightSearchForm() {
         };
         
         // Validation
-        if (!fromCity || !toCity || !departureDate) {
+        if (!from_City || !to_City || !departure_Date) {
             showError('Please fill in all required fields (From, To, Departure Date).');
             return;
         }
@@ -139,7 +139,7 @@ function initFlightSearchForm() {
         };
         
         localStorage.setItem('flightSearch', JSON.stringify(searchData));
-        window.location.href = '/booking/'; 
+        window.location.href = '/book/'; 
     });
 }
 
@@ -148,11 +148,12 @@ function initMyBookingsForm() {
     
     if (!bookingsForm) return;
     
-    bookingsForm.addEventListener('submit', function(event) {
+    bookingsForm.addEventListener('submit', async function(event) {
         event.preventDefault();
         
         const bookingRef = document.getElementById('bookingRef').value.trim();
         const bookingEmail = document.getElementById('bookingEmail').value.trim();
+        const submitBtn = bookingsForm.querySelector('.search-btn');
         
         if (!bookingRef || !bookingEmail) {
             showError('Please fill in your Booking Reference and Email.');
@@ -164,10 +165,147 @@ function initMyBookingsForm() {
             return;
         }
         
-        console.log('Looking up booking:', bookingRef, bookingEmail);
-        showSuccess('Searching for your booking...');
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching for booking for these details...';
+        removeAlerts();
+
+        try {
+            await new Promise(resolve => setTimeout(resolve, 3500));
+            const response = await fetch('/api/booking/search/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Function to get CSRF
+                },
+                body: JSON.stringify({ booking_reference: bookingRef, bookingEmail: bookingEmail})
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                
+               window.location.href = `/booking/find/?ref=${bookingRef}&email=${bookingEmail}`;
+            } else {
+                showError(data.message || 'No booking found with these details.');
+            }
+        } catch (err) {
+            showError("Connection failed. Please try again.");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'View My Booking';
+        }
     });
 }
+
+function displayBookingResult(booking) {
+    // Create or find a results wrapper
+    let wrapper = document.getElementById('ajax-results-wrapper');
+    if (!wrapper) {
+        wrapper = document.createElement('div');
+        wrapper.id = 'ajax-results-wrapper';
+        document.querySelector('.bookings-content').appendChild(wrapper);
+    }
+
+    wrapper.innerHTML = `
+        <div class="booking-card professional-ui fade-in" id="booking-${booking.id}">
+            <div class="card-header-flex">
+                <span class="ref-badge"><i class="fas fa-ticket-alt"></i> ${booking.ref}</span>
+                <span class="status-pill ${booking.status_raw}">${booking.status}</span>
+            </div>
+            
+            <div class="card-main-content">
+                <div class="route-display">
+                    <div class="endpoint">
+                        <h3>${booking.origin}</h3>
+                        <span>Origin</span>
+                    </div>
+                    <div class="flight-path">
+                        <i class="fas fa-plane"></i>
+                        <div class="path-line"></div>
+                    </div>
+                    <div class="endpoint">
+                        <h3>${booking.destination}</h3>
+                        <span>Destination</span>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="far fa-calendar-alt"></i>
+                        <div><strong>Date</strong><p>${booking.departure_date}</p></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="far fa-clock"></i>
+                        <div><strong>Time</strong><p>${booking.departure_time}</p></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-users"></i>
+                        <div><strong>Passengers</strong><p>${booking.passengers}</p></div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-info-circle"></i>
+                        <div><strong>Type</strong><p>${booking.trip_type}</p></div>
+                    </div>
+                </div>
+
+                <div class="price-footer">
+                    <div class="total-amount">
+                        <span>Total Paid</span>
+                        <h2>₦${booking.total_price}</h2>
+                    </div>
+                    <button onclick="confirmCancellation(${booking.id})" class="cancel-action-btn">
+                        Cancel Flight
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+async function confirmCancellation(id) {
+    if (!confirm("Are you sure you want to cancel this booking?")) return;
+
+    try {
+        const response = await fetch(`/api/booking/cancel/${id}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        });
+        const data = await response.json();
+        if (data.success) {
+            const card = document.getElementById(`booking-${id}`);
+            card.style.transform = "scale(0.9)";
+            card.style.opacity = "0";
+            setTimeout(() => {
+                card.remove();
+                showSuccess("Booking cancelled successfully.");
+            }, 300);
+        }
+    } catch (err) {
+        showError("Could not process cancellation. please try again.");
+    }
+}
+
+// Helper to get CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+        // window.location.href = `/api/booking/find/?ref=${encodeURIComponent(bookingRef)}&email=${encodeURIComponent(bookingEmail)}`;
+  
 
 function initMobileMenu() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');

@@ -25,9 +25,6 @@ SECRET_KEY = 'django-insecure-l(xmax_uknb26f$od+(hg@&7=vo+mdn64qz+t6up*wluthep6t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +37,7 @@ INSTALLED_APPS = [
     'booking',
     'flights',
     'pages',
+    'accounts',
 ]
 
 

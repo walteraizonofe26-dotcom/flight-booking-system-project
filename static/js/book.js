@@ -85,8 +85,48 @@ function switchStep(stepNumber, pushState = true) {
     window.scrollTo(0, 0);
 }
 
+
+  // Check if the user is coming from the Home Page with a search
 document.addEventListener('DOMContentLoaded', () => {
-    switchStep(0); 
+    const savedSearch = localStorage.getItem('flightSearch');
+
+    if (savedSearch) {
+        console.log("Auto-loading search from Home Page...");
+        const data = JSON.parse(savedSearch);
+
+        // 1. Fill the actual HTML input fields so performSearch() can read them
+        if(document.getElementById('fromCity')) document.getElementById('fromCity').value = data.from;
+        if(document.getElementById('toCity')) document.getElementById('toCity').value = data.to;
+        if(document.getElementById('departureDate')) document.getElementById('departureDate').value = data.departure_Date;
+        
+        if (data.returnDate && document.getElementById('returnDate')) {
+            document.getElementById('returnDate').value = data.returnDate;
+            // Trigger the trip type radio button for Round Trip
+            const roundTripRadio = document.querySelector('input[name="tripType"][value="round-trip"]');
+            if (roundTripRadio) {
+                roundTripRadio.checked = true;
+                roundTripRadio.dispatchEvent(new Event('change')); // Show the return date box
+            }
+        }
+
+        // 2. Fill Passenger counts
+        if(document.getElementById('adults')) document.getElementById('adults').value = data.passengers.adults;
+        if(document.getElementById('children')) document.getElementById('children').value = data.passengers.children;
+        if(document.getElementById('infants')) document.getElementById('infants').value = data.passengers.infants;
+
+        // 3. Clear storage so it doesn't search again on refresh
+        localStorage.removeItem('flightSearch');
+
+        // 4. Run the search
+        // We call performSearch() directly because it's now defined in search.js
+        if (typeof performSearch === 'function') {
+            performSearch();
+        }
+
+    } else {
+        // Normal behavior: Start at the search form
+        switchStep(0); 
+    }
 });
 /**
  * Handle Chrome Back/Forward Arrow

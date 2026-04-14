@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Travel History{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/my_bookings.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="bookings-header">
+        <h1><i class="fas fa-plane-departure"></i> My Bookings</h1>
+        <p>Manage your upcoming trips and view past travel history.</p>
+    </div>
+
+    {% for booking in bookings %}
+    <div class="booking-card professional-ui mb-4" id="booking-{{ booking.id }}">
+    <div class="card-header-flex">
+        <span class="ref-badge"><i class="fas fa-ticket-alt"></i> {{ booking.booking_reference }}</span>
+        <span class="status-pill {{ booking.status|lower }}">{{ booking.get_status_display }}</span>
+    </div>
+    
+    <div class="card-main-content">
+        <div class="flight-leg">
+            <div class="leg-label"><i class="fas fa-plane-departure"></i> Outbound Flight</div>
+            <div class="route-display">
+                <div class="endpoint">
+                    <h3>{{ booking.flight.departure_city }}</h3>
+                    <span>Origin</span>
+                </div>
+                <div class="flight-path">
+                    <div class="path-line"></div>
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="endpoint">
+                    <h3>{{ booking.flight.arrival_city }}</h3>
+                    <span>Destination</span>
+                </div>
+            </div>
+            <div class="leg-details">
+                <span><i class="far fa-calendar-alt"></i> {{ booking.flight.departure_time|date:"D, d M Y" }}</span>
+                <span><i class="far fa-clock"></i> {{ booking.flight.departure_time|date:"H:i" }}</span>
+            </div>
+        </div>
+
+        {% if booking.return_flight %}
+        <div class="leg-divider"></div>
+        <div class="flight-leg return-leg">
+            <div class="leg-label"><i class="fas fa-plane-arrival"></i> Return Flight</div>
+            <div class="route-display">
+                <div class="endpoint">
+                    <h3>{{ booking.return_flight.departure_city }}</h3>
+                    <span>Origin</span>
+                </div>
+                <div class="flight-path">
+                    <div class="path-line"></div>
+                    <i class="fas fa-plane fa-flip-horizontal"></i>
+                </div>
+                <div class="endpoint">
+                    <h3>{{ booking.return_flight.arrival_city }}</h3>
+                    <span>Destination</span>
+                </div>
+            </div>
+            <div class="leg-details">
+                <span><i class="far fa-calendar-alt"></i> {{ booking.return_flight.departure_time|date:"D, d M Y" }}</span>
+                <span><i class="far fa-clock"></i> {{ booking.return_flight.departure_time|date:"H:i" }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="info-grid">
+            <div class="info-item">
+                <i class="fas fa-users"></i>
+                <div><strong>Passengers</strong><p>{{ booking.seats_booked }}</p></div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-exchange-alt"></i>
+                <div><strong>Trip Type</strong><p>{% if booking.return_flight %}Round Trip{% else %}One Way{% endif %}</p></div>
+            </div>
+        </div>
+
+        <div class="price-footer">
+            <div class="total-amount">
+                <span>Total Paid</span>
+                <h2>₦{{ booking.total_price }}</h2>
+            </div>
+            {% if booking.status != 'CANCELLED' %}
+            <button onclick="confirmCancellation({{ booking.id }})" class="cancel-action-btn">
+                Cancel Booking
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% empty%}
+<div class="text-center py-5">
+        <i class="fas fa-folder-open fa-3x mb-3 text-muted"></i>
+        <p>No bookings found.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary">Book a Flight</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

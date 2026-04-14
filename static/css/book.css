@@ -64,7 +64,7 @@
 #header-total-price {
     font-size: 2rem;
     font-weight: 800;
-    color: #ffd700; /* Gold for visibility */
+    color: #ffd700; 
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin: 0;
 }

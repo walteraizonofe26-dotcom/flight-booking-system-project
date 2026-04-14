@@ -1,0 +1,42 @@
+/* About Page Specific Styles */
+.about-hero {
+    background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
+                url('../images/hero-bg.jpg') center/cover no-repeat;
+    color: white;
+    padding: 120px 20px;
+    text-align: center;
+    border-radius: 0 0 50px 50px;
+}
+
+.about-hero h1 { font-size: 3.2rem; font-weight: 800; margin-bottom: 20px; }
+.about-hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
+
+.section-title { color: #0f172a; font-weight: 700; margin-bottom: 20px; position: relative; }
+.section-title::after { content: ''; display: block; width: 50px; height: 4px; background: #3b82f6; margin-top: 10px; }
+
+.about-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: #ffffff;
+    padding: 30px 20px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border-bottom: 4px solid #3b82f6;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.stat-card:hover { transform: translateY(-10px); }
+.stat-card h3 { color: #2563eb; font-size: 2.5rem; margin: 0; }
+.stat-card span { color: #64748b; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; }
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}

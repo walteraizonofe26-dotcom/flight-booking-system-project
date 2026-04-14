@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
@@ -14,7 +15,7 @@ class Booking(models.Model):
     
     # --- RELATIONSHIPS ---
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='bookings',
         null=True,
@@ -83,7 +84,7 @@ class Booking(models.Model):
         constraints = [
             models.CheckConstraint(
                 name='positive_seats_booked',
-                check=models.Q(seats_booked__gt=0)
+                condition=models.Q(seats_booked__gt=0)
             ),
         ]
 

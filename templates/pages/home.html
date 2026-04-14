@@ -4,7 +4,7 @@
 {% block title %}SkyBook Airlines - Home{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my_bookings.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -76,7 +76,8 @@
                     <h3><i class="fas fa-suitcase-rolling"></i> Access Your Bookings</h3>
                     <p>Enter your booking details to view or manage your flights.</p>
 
-                    <form class="bookings-form">
+                    <form class="bookings-form" id="ajaxBookingSearch">
+                        {% csrf_token %}
                         <div class="form-grid-3">
                             <div class="form-group">
                                 <label>Booking Reference</label>
@@ -86,12 +87,15 @@
                                 <label>Email Address</label>
                                 <input type="email" id="bookingEmail" class="form-input" placeholder="your@email.com" required> 
                             </div>
-                            <button type="submit" class="search-btn btn-booking">View My Booking</button>
-                        </div>
-                    </form>
+                            <div class="form-group" style="display: flex; align-items: flex-end;">
+                            <button type="submit" class="search-btn btn-booking">
+                            <span class="btn-text"> View My Booking</span>
+                    </button>
                 </div>
             </div>
-
+        </form>
+    <div id="bookingResults" class="results-container"></div>
+</div>
         </div>
     </div>
 </section>

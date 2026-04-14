@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Login to SkyBook{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header-icon">
+            <i class="fas fa-user-lock"></i>
+        </div>
+        <h2>Welcome Back</h2>
+        <p class="auth-subtitle">Log in to manage your flights and profile.</p>
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <p class="error-msg">Invalid username or password. Please try again.</p>
+            {% endif %}
+
+            <div class="form-group">
+                <label>Username</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="btn-auth-primary">Login</button>
+        </form>
+        
+        <div class="auth-links">
+            <a href="#">Forgot Password?</a>
+            <p>New to SkyBook? <a href="{% url 'signup' %}">Create account</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

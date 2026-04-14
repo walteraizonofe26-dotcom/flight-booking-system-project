@@ -8,3 +8,11 @@ def home(request):
 
 def book(request):
     return render(request, 'pages/book.html')
+
+    
+def contact(request):
+    return render(request, 'pages/contact.html')
+
+
+def about(request):
+    return render(request, 'pages/about.html')

@@ -72,15 +72,15 @@ class Flight(models.Model):
         
         constraints = [
             models.CheckConstraint(
-                check=models.Q(departure_time__lt=models.F('arrival_time')),
+                condition=models.Q(departure_time__lt=models.F('arrival_time')),
                 name='departure_before_arrival'
             ),
             models.CheckConstraint(
-                check=models.Q(available_seats__lte=models.F('total_seats')),
+                condition=models.Q(available_seats__lte=models.F('total_seats')),
                 name='available_seats_lte_total_seats'
             ),
             models.CheckConstraint(
-                check=models.Q(price__gte=0.01),
+                condition=models.Q(price__gte=0.01),
                 name='price_positive'
             ),
         ]
