@@ -115,25 +115,3 @@
 {% block extra_js %}
 <script src="{% static 'js/book.js' %}"></script>
 {% endblock %}
-{% comment %} 
-there is also an errors we need to fix on the bookpage. 
-(1) first part:
-1Select Flight
-2Passenger Details
-3Payment
-4Confirmation. should not be on the bookpage immediately the user open the bookpage. it should be after the user has fill the like from, to and date then search for flight if the flight is available or not. once the user clciked on search flight the 1Select Flight 2Passenger Details 3Payment 4Confirmation should show on the top.  
-
-(2) when the user has search for flight and the flight is available, it showing select flight, passengers details etc still on the same bookpage it suppose to show another fresh page where the from, to , date and passengers place like, adult, infant would be available.  you can check the image i sent to see that the passengers details  etc is below the bookflight section but it suppose to be in another fresh page enterly .
-
-(3) even the user has searched for flght and they see available flight and the clicked on proceed to passengers details the :
- 1Select Flight
-2Passenger Details
-3Payment
-4Confirmation isn't following the flow like when on the passneger details is hould show full to passnegers as well as the others .
-what i want is that when the user has searched flight and the flight is available the select flight should be another page with a back button to go back if the user want to change date or place. and when the user clicked on select flight it should take the user directly to passengers details in a fresh page where the user could put his/her details and also a back button. just go with the flow thesame as payment and confirmation.
-
-NOTE: don't fix the error at once. start with number error. when i checked it and it is ok i will be the one to tell you let go to error 2 or ask me should we proceed to number 2.
-
-i will send you the book.js codes but don't rewrite it send only the codes need to fix the error eirther to add or modify the html, css or js. 
-
-thanks  {% endcomment %}

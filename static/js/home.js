@@ -18,7 +18,7 @@ window.switchTab = function(tabId) {
     // 1. Update tab styling
     document.querySelectorAll('.search-tab').forEach(tab => {
         tab.classList.remove('active');
-        // Check if the tab's onclick attribute contains the tabId we want to activate
+
         if (tab.getAttribute('onclick').includes(tabId)) {
             tab.classList.add('active');
         }
